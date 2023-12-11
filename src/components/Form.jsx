@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react'
 import { storeTodoList, getRandomId } from "../../utils";
+import ListItems from './ListItems';
+
 
 export default function Form() {
 
@@ -10,42 +12,40 @@ export default function Form() {
   );
 
   const getInputValue = event =>
-  setInputValue(event.target.value);
+    setInputValue(event.target.value);
 
-    const handleSubmit = event => {
-      event.preventDefault();
-      const newTask = {
-        id: getRandomId(),
-        title: inputValue,
-        isChecked: false
-      };
-      setToDoList(prevToDoList => [...prevToDoList, newTask]);
-      // Remove the input value
-      setInputValue('');
+  const handleSubmit = event => {
+    event.preventDefault();
+    const newTask = {
+      id: getRandomId(),
+      title: inputValue,
+      isChecked: false
     };
+    setToDoList(prevToDoList => [...prevToDoList, newTask]);
+    // Remove the input value
+    setInputValue('');
+  };
 
-    // Store data when toDolist has been successfully updated
-    useEffect(() => {
-      storeTodoList(toDoList);
-    }, [toDoList]);
+  // Store data when toDolist has been successfully updated
+  useEffect(() => {
+    storeTodoList(toDoList);
+  }, [toDoList]);
 
   return (
     <div className="container">
       <form onSubmit={handleSubmit}>
-          <input
-           onChange={getInputValue}
-           name="title"
-           type="text"
-           value={inputValue}
-           placeholder="Add a new task"
-           id="input"/>
+        <input
+          onChange={getInputValue}
+          name="title"
+          type="text"
+          value={inputValue}
+          placeholder="Add a new task"
+          id="input" />
 
         <button id="add">Add</button>
         <button id="cancel">Cancel</button>
       </form>
-      <ul>
-
-      </ul>    
+      <ListItems toDoList={toDoList} setToDoList={setToDoList} />
     </div>
   )
 }
