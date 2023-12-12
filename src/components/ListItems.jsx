@@ -3,7 +3,7 @@ import { storeTodoList, getRandomId } from "../../utils";
 
 export default function ListItems({ toDoList }) {
 
-  storeTodoList(toDoList);
+
 
 
 
