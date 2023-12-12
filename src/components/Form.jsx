@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react'
 import { storeTodoList, getRandomId } from "../../utils";
+import ListItems from './ListItems';
+
 
 export default function Form() {
   const [toDoList, setToDoList] = useState(
@@ -20,7 +22,7 @@ export default function Form() {
   const getTask = event => {
     setTask({
       ...task,
-      id:getRandomId(),
+      id: getRandomId(),
       [event.target.name]: event.target.value
     });
   }
@@ -31,27 +33,25 @@ export default function Form() {
     const latestToDoList = JSON.parse(localStorage.getItem('todo')) || [];
     setToDoList([...latestToDoList, task]);
     // Reset task everytime submits
-    setTask({id: '', title: '', isChecked:false});
+    setTask({ id: '', title: '', isChecked: false });
   };
 
   return (
     <div className="container">
       <form onSubmit={handleSubmit}>
-          <input
-           onChange={getTask}
-           name="title"
-           type="text"
-           // Reset the input field
-           value={task.title}
-           placeholder="Add a new task"
-           id="input"/>
+        <input
+          onChange={getTask}
+          name="title"
+          type="text"
+          // Reset the input field
+          value={task.title}
+          placeholder="Add a new task"
+          id="input" />
 
         <button id="add">Add</button>
         <button id="cancel">Cancel</button>
       </form>
-      <ul>
-
-      </ul>    
+      <ListItems toDoList={toDoList} setToDoList={setToDoList} />
     </div>
   )
 }
