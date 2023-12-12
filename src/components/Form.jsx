@@ -4,41 +4,47 @@ import ListItems from './ListItems';
 
 
 export default function Form() {
-
-  const [inputValue, setInputValue] = useState('');
-  // Set initial list to be either from localstorage or empty arry
   const [toDoList, setToDoList] = useState(
-    JSON.parse(localStorage.getItem('toDo')) || []
+    JSON.parse(localStorage.getItem('todo')) || []
   );
 
-  const getInputValue = event =>
-    setInputValue(event.target.value);
+  const [task, setTask] = useState({
+    id: '',
+    title: '',
+    isChecked: false
+  });
 
-  const handleSubmit = event => {
-    event.preventDefault();
-    const newTask = {
-      id: getRandomId(),
-      title: inputValue,
-      isChecked: false
-    };
-    setToDoList(prevToDoList => [...prevToDoList, newTask]);
-    // Remove the input value
-    setInputValue('');
-  };
-
-  // Store data when toDolist has been successfully updated
+  // Store todo list when update happens
   useEffect(() => {
     storeTodoList(toDoList);
   }, [toDoList]);
+
+  const getTask = event => {
+    setTask({
+      ...task,
+      id: getRandomId(),
+      [event.target.name]: event.target.value
+    });
+  }
+
+  const handleSubmit = event => {
+    event.preventDefault();
+    // Making sure that toDoList and localStorage are always the same
+    const latestToDoList = JSON.parse(localStorage.getItem('todo')) || [];
+    setToDoList([...latestToDoList, task]);
+    // Reset task everytime submits
+    setTask({ id: '', title: '', isChecked: false });
+  };
 
   return (
     <div className="container">
       <form onSubmit={handleSubmit}>
         <input
-          onChange={getInputValue}
+          onChange={getTask}
           name="title"
           type="text"
-          value={inputValue}
+          // Reset the input field
+          value={task.title}
           placeholder="Add a new task"
           id="input" />
 
