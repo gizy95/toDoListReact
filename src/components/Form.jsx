@@ -12,16 +12,16 @@ export default function Form() {
   const getInputValue = event =>
   setInputValue(event.target.value);
 
-    const handleSubmit = event => {
-      event.preventDefault();
-      const newTask = {
-        id: getRandomId(),
-        title: inputValue,
-        isChecked: false
-      };
-      setToDoList(prevToDoList => [...prevToDoList, newTask]);
-      // Remove the input value
-      setInputValue('');
+  const handleSubmit = event => {
+    event.preventDefault();
+    const newTask = {
+      id: getRandomId(),
+      title: inputValue,
+      isChecked: false
+    };
+    setToDoList(prevToDoList => [...prevToDoList, newTask]);  
+    // Remove the input value
+    setInputValue('');
     };
 
     // Store data when toDolist has been successfully updated
@@ -36,6 +36,7 @@ export default function Form() {
            onChange={getInputValue}
            name="title"
            type="text"
+           // Make it control form
            value={inputValue}
            placeholder="Add a new task"
            id="input"/>
