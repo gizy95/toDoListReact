@@ -3,20 +3,17 @@ import { storeTodoList, getRandomId } from "../../utils";
 import ListItems from "./ListItems";
 
 export default function Form() {
+  /* State */
   const [idToUpdate, setIdToUpdate] = useState("");
-
   const [inputValue, setInputValue] = useState('');
-
   const [toDoList, setToDoList] = useState(
     JSON.parse(localStorage.getItem("todo")) || []
   );
-
   const [task, setTask] = useState({
     id: "",
     title: "",
     isChecked: false,
   });
-
   const [btnText, setBtnText] = useState("Add");
 
   // Store todo list when update happens
