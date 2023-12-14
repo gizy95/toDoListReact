@@ -22,11 +22,13 @@ export default function Form() {
   }, [toDoList]);
 
   const getTask = (event) => {
-    setInputValue(event.target.value);
+    // This way time lag of state is solved
+    const newInputValue = event.target.value;
+    setInputValue(newInputValue);
     setTask({
       ...task,
       id: getRandomId(),
-      title:inputValue
+      title:newInputValue
     });
   };
 
@@ -55,6 +57,7 @@ export default function Form() {
       setToDoList([...latestToDoList, task]);
       // Reset task everytime submits
       setTask({ id: "", title: "", isChecked: false });
+      setInputValue("")
   }
 
   const handleSubmit = (event) => {
