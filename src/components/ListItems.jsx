@@ -1,9 +1,13 @@
 import { storeTodoList, getRandomId } from "../../utils";
 
 
-export default function ListItems({ toDoList }) {
+export default function ListItems({ toDoList, setToDoList }) {
 
-
+  const deleteItem = (id) => {
+    const newList = toDoList.filter(item => item.id !== id);
+    setToDoList(newList);
+    localStorage.setItem('toDoList', JSON.stringify(newList));
+  }
 
 
 
@@ -16,7 +20,7 @@ export default function ListItems({ toDoList }) {
         <li id={item.id}>
           <span><input type="checkbox" id="checkbox" />
             <span>{item.title}</span></span>
-          <button className='delete-button'>X</button>
+          <button onClick={() => deleteItem(item.id)} className='delete-button'>X</button>
         </li>
       ))
       }
