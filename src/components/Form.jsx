@@ -33,7 +33,6 @@ export default function Form() {
   };
 
   const getUpdateItem = (id) => {
-    const inputField = document.querySelector("#input");
     const itemToBeUpdated = toDoList.find((item) => item.id === id);
     if (itemToBeUpdated) {
       setBtnText("Edit");
