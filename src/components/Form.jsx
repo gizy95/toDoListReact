@@ -9,27 +9,21 @@ export default function Form() {
   const [toDoList, setToDoList] = useState(
     () => JSON.parse(localStorage.getItem("todo")) || []
   );
-  const [task, setTask] = useState({
-    id: "",
-    title: "",
-    isChecked: false,
-  });
   const [btnText, setBtnText] = useState("Add");
 
   // Store todo list when update happens
   useEffect(() => {
     storeTodoList(toDoList);
+    if(toDoList.length===0) {
+      setBtnText("Add");
+      setInputValue("");
+    }
   }, [toDoList]);
 
-  const getTask = (event) => {
+  const getInputValue = (event) => {
     // This way time lag of state is solved
     const newInputValue = event.target.value;
     setInputValue(newInputValue);
-    setTask({
-      ...task,
-      id: getRandomId(),
-      title:newInputValue
-    });
   };
 
   const getUpdateItem = (id) => {
@@ -38,7 +32,7 @@ export default function Form() {
       setBtnText("Edit");
       setIdToUpdate(id);
       setInputValue(itemToBeUpdated.title);
-    }
+    } 
   };
 
   const editItems = () => {
@@ -46,26 +40,40 @@ export default function Form() {
       item.id === idToUpdate ? { ...item, title: inputValue } : item
     );
     setToDoList(updatedToDoList);
-    setBtnText("Add");
     setInputValue("");
+    setBtnText("Add");
   };
+
+  const handleCancel = () => {
+    setBtnText("Cancel");
+  }
 
   const submitTask = () => {
       // Making sure that toDoList and localStorage are always the same
       const latestToDoList = JSON.parse(localStorage.getItem("todo")) || [];
+      const task = {
+        id:getRandomId(),
+        title:inputValue,
+        isChecked:false
+      }
       setToDoList([...latestToDoList, task]);
-      // Reset task everytime submits
-      setTask({ id: "", title: "", isChecked: false });
+      // Reset input everytime submits
       setInputValue("")
   }
 
   const handleSubmit = (event) => {
+    console.log(btnText);
     if (btnText === "Edit") {
       event.preventDefault();
       editItems();
-    } else {
+    } else if (btnText === "Add") {
       event.preventDefault();
       submitTask();
+    } else {
+      // Cancell
+      event.preventDefault();
+      setInputValue("");
+      setBtnText("Add");
     }
   };
 
@@ -73,7 +81,7 @@ export default function Form() {
     <div className="container">
       <form onSubmit={handleSubmit}>
         <input
-          onChange={getTask}
+          onChange={getInputValue}
           name="title"
           type="text"
           // Reset the input field
@@ -82,10 +90,14 @@ export default function Form() {
           id="input"
         />
 
-        <button id="add"> {btnText}</button>
+        <button id="add" disabled={!inputValue}> {btnText}</button>
         <button
           id="cancel"
-          style={{ display: btnText === "Edit" ? "inline-block" : null }}
+          style={{
+             display: btnText === "Edit"
+              ? "inline-block"
+              : null }}
+          onClick={handleCancel}
         >
           Cancel
         </button>

@@ -8,7 +8,6 @@ export default function ListItems({ toDoList, setToDoList, getUpdateItem}) {
   const toggleChecked = (id) => {
     const newList = toDoList.map(item => item.id === id ? { ...item, isChecked: !item.isChecked } : item);
     setToDoList(newList);
-    localStorage.setItem('todo', JSON.stringify(newList));
   }
 
   return (
@@ -18,7 +17,7 @@ export default function ListItems({ toDoList, setToDoList, getUpdateItem}) {
           <span>
             <input type="checkbox" id="checkbox" checked={item.isChecked} onChange={() => toggleChecked(item.id)} />
             <span
-             onClick={() => getUpdateItem(item.id)}
+             onDoubleClick={() => getUpdateItem(item.id)}
              className={item.isChecked ? 'strikethrough' : ''}>{item.title}</span>
             </span>
           <button onClick={() => deleteItem(item.id)} className='delete-button'>X</button>
