@@ -7,7 +7,7 @@ export default function Form() {
   const [idToUpdate, setIdToUpdate] = useState("");
   const [inputValue, setInputValue] = useState('');
   const [toDoList, setToDoList] = useState(
-    JSON.parse(localStorage.getItem("todo")) || []
+    () => JSON.parse(localStorage.getItem("todo")) || []
   );
   const [task, setTask] = useState({
     id: "",
