@@ -90,7 +90,7 @@ export default function Form() {
           id="input"
         />
 
-        <button id="add"> {btnText}</button>
+        <button id="add" disabled={!inputValue}> {btnText}</button>
         <button
           id="cancel"
           style={{
